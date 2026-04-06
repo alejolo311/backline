@@ -1,0 +1,132 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 45 33% 97%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 246 50% 37%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 246 50% 37%;
+    --radius: 0.4rem;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-[#faf9f6] text-foreground;
+    font-family: system-ui, -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3,
+  .font-serif {
+    font-family: Georgia, "Times New Roman", serif;
+  }
+}
+
+@layer components {
+  /* Category badge */
+  .badge-category {
+    @apply inline-flex items-center gap-1 rounded px-1.5 py-0.5;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  /* Event card base */
+  .event-card {
+    border-radius: 4px;
+    padding: 5px 6px 5px 10px;
+    font-size: 11px;
+    position: relative;
+    cursor: pointer;
+    border: 1px solid;
+    border-left-width: 3px;
+    transition: opacity 0.15s;
+  }
+
+  .event-card:hover .event-card-actions {
+    opacity: 1;
+  }
+
+  .event-card-actions {
+    opacity: 0;
+    transition: opacity 0.15s;
+  }
+
+  /* Day note */
+  .day-note {
+    background: #fffbea;
+    border: 1px solid #f5d84e;
+    border-radius: 4px;
+    padding: 6px 8px;
+    font-size: 12px;
+    width: 100%;
+    resize: none;
+    font-family: inherit;
+    outline: none;
+    min-height: 36px;
+  }
+
+  .day-note:focus {
+    border-color: #d4b800;
+    box-shadow: 0 0 0 2px rgba(212, 184, 0, 0.15);
+  }
+
+  /* Drag drop indicator line */
+  .dnd-drop-indicator {
+    height: 2px;
+    background: #3b82f6;
+    border-radius: 1px;
+    margin: 2px 0;
+  }
+
+  /* Print styles */
+  @media print {
+    .no-print {
+      display: none !important;
+    }
+    body {
+      background: white;
+      font-size: 11pt;
+    }
+    .print-page-break {
+      page-break-after: always;
+    }
+  }
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}

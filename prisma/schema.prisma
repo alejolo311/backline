@@ -1,0 +1,104 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  username      String    @unique
+  passwordHash  String
+  name          String?
+  createdAt     DateTime  @default(now())
+}
+
+model Festival {
+  id          String    @id @default(cuid())
+  name        String
+  slug        String    @unique
+  startDate   DateTime
+  endDate     DateTime
+  location    String?
+  description String?
+  coverColor  String    @default("#3C3489")
+  isArchived  Boolean   @default(false)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  days        Day[]
+  teamMembers TeamMember[]
+}
+
+model Day {
+  id           String   @id @default(cuid())
+  festivalId   String
+  date         DateTime
+  label        String?
+  internalNote String?
+  order        Int      @default(0)
+
+  festival     Festival  @relation(fields: [festivalId], references: [id], onDelete: Cascade)
+  events       Event[]
+  dayNote      DayNote?
+
+  @@index([festivalId])
+}
+
+model Event {
+  id              String    @id @default(cuid())
+  dayId           String
+  title           String
+  category        Category  @default(cultural)
+  isInternal      Boolean   @default(false)
+  startTime       String?   // stored as "HH:MM"
+  endTime         String?   // stored as "HH:MM"
+  venue           String?
+  description     String?
+  externalContact String?
+  externalPhone   String?
+  internalOwner   String?
+  internalNotes   String?
+  order           Int       @default(0)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  day             Day       @relation(fields: [dayId], references: [id], onDelete: Cascade)
+
+  @@index([dayId])
+}
+
+model DayNote {
+  id        String   @id @default(cuid())
+  dayId     String   @unique
+  content   String
+  updatedAt DateTime @updatedAt
+
+  day       Day      @relation(fields: [dayId], references: [id], onDelete: Cascade)
+}
+
+model TeamMember {
+  id         String   @id @default(cuid())
+  festivalId String
+  name       String
+  role       String?
+  phone      String?
+  email      String?
+  createdAt  DateTime @default(now())
+
+  festival   Festival @relation(fields: [festivalId], references: [id], onDelete: Cascade)
+
+  @@index([festivalId])
+}
+
+enum Category {
+  cultural
+  deportes
+  musica
+  social
+  religioso
+  reinado
+  produccion
+}
