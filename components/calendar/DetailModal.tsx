@@ -14,9 +14,7 @@ export function DetailModal() {
     .find((e) => e.id === detailEventId);
 
   const handleKeyDown = useCallback(
-    (e: KeyboardEvent) => {
-      if (e.key === "Escape") closeDetail();
-    },
+    (e: KeyboardEvent) => { if (e.key === "Escape") closeDetail(); },
     [closeDetail]
   );
 
@@ -33,27 +31,33 @@ export function DetailModal() {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/40 p-4"
+      className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4"
+      style={{ backgroundColor: "rgba(15,28,52,0.55)", backdropFilter: "blur(4px)" }}
       onClick={(e) => { if (e.target === e.currentTarget) closeDetail(); }}
     >
       <div
-        className="w-full max-w-md rounded-lg shadow-xl overflow-hidden"
+        className="w-full max-w-md rounded-xl shadow-2xl overflow-hidden border"
         style={{
-          backgroundColor: isProduccion ? "#1e1e1e" : "white",
-          color: isProduccion ? "#F0EEE8" : undefined,
+          backgroundColor: isProduccion ? "#0F1C34" : "white",
+          color: isProduccion ? "#E8F4F2" : "#0F1C34",
+          borderColor: isProduccion ? "#1F3558" : "#d0e8e5",
         }}
       >
-        {/* Header bar with category color */}
+        {/* Gradient header bar */}
         <div
-          className="h-1.5"
-          style={{ backgroundColor: meta.accent }}
+          className="h-1"
+          style={{
+            background: isProduccion
+              ? "linear-gradient(90deg, #2BADA0, #3575B0)"
+              : `linear-gradient(90deg, ${meta.accent}, ${meta.border})`,
+          }}
         />
 
         <div className="px-5 py-4">
           <div className="flex items-start justify-between gap-3 mb-4">
             <div>
-              <div className="flex items-center gap-1.5 mb-1">
-                {isProduccion && <Settings size={14} className="opacity-60" />}
+              <div className="flex items-center gap-1.5 mb-1.5">
+                {isProduccion && <Settings size={13} className="opacity-60" />}
                 <span
                   className="badge-category"
                   style={{
@@ -69,8 +73,8 @@ export function DetailModal() {
             </div>
             <button
               onClick={closeDetail}
-              className={`p-1 rounded transition-colors flex-shrink-0 ${
-                isProduccion ? "hover:bg-white/10" : "hover:bg-gray-100"
+              className={`p-1.5 rounded-lg transition-colors flex-shrink-0 ${
+                isProduccion ? "hover:bg-white/10 text-[#5A8F8B]" : "hover:bg-[#E0F5F0] text-[#5A8F8B]"
               }`}
             >
               <X size={16} />
@@ -84,21 +88,18 @@ export function DetailModal() {
                 <span>{timeRange}</span>
               </div>
             )}
-
             {event.venue && (
               <div className="flex items-center gap-2">
                 <MapPin size={14} className="opacity-50 flex-shrink-0" />
                 <span>{event.venue}</span>
               </div>
             )}
-
             {event.internalOwner && (
               <div className="flex items-center gap-2">
                 <User size={14} className="opacity-50 flex-shrink-0" />
                 <span>{event.internalOwner}</span>
               </div>
             )}
-
             {event.externalContact && (
               <div className="flex items-start gap-2">
                 <User size={14} className="opacity-50 flex-shrink-0 mt-0.5" />
@@ -113,30 +114,25 @@ export function DetailModal() {
                 </div>
               </div>
             )}
-
             {event.description && (
               <div className="flex items-start gap-2">
                 <FileText size={14} className="opacity-50 flex-shrink-0 mt-0.5" />
-                <p className={`text-sm leading-relaxed ${isProduccion ? "opacity-80" : "text-gray-600"}`}>
-                  {event.description}
-                </p>
+                <p className="text-sm leading-relaxed opacity-80">{event.description}</p>
               </div>
             )}
-
             {event.internalNotes && (
               <div
-                className={`rounded p-3 mt-2 ${
+                className="rounded-lg p-3 mt-2"
+                style={
                   isProduccion
-                    ? "bg-white/10 border border-white/20"
-                    : "bg-yellow-50 border border-yellow-200"
-                }`}
+                    ? { background: "rgba(43,173,160,0.08)", border: "1px solid rgba(43,173,160,0.2)" }
+                    : { background: "#fffbea", border: "1px solid #f5d84e" }
+                }
               >
-                <p className={`text-xs font-medium uppercase tracking-wide mb-1 ${isProduccion ? "text-gray-400" : "text-yellow-700"}`}>
+                <p className={`text-xs font-semibold uppercase tracking-wide mb-1 ${isProduccion ? "text-[#2BADA0]" : "text-yellow-700"}`}>
                   Notas internas
                 </p>
-                <p className={`text-sm leading-relaxed ${isProduccion ? "opacity-80" : "text-gray-700"}`}>
-                  {event.internalNotes}
-                </p>
+                <p className="text-sm leading-relaxed opacity-85">{event.internalNotes}</p>
               </div>
             )}
           </dl>

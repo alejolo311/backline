@@ -47,59 +47,76 @@ export function InlineEditForm({ event, onClose, onSave }: Props) {
     }
   }
 
+  if (isProduccion) {
+    return (
+      <form
+        onSubmit={handleSubmit}
+        onKeyDown={(e) => { if (e.key === "Escape") onClose(); }}
+        className="rounded-lg p-2 border text-xs bg-[#0F1C34] border-[#1F3558] text-[#E8F4F2]"
+      >
+        <input
+          name="title"
+          defaultValue={event.title}
+          required
+          autoFocus
+          className="w-full rounded-lg px-2 py-1 mb-1.5 text-xs bg-[#1A2E4A] border border-[#2BADA0]/30 text-[#E8F4F2] focus:outline-none focus:ring-1 focus:ring-[#2BADA0]"
+        />
+        <input
+          name="internalOwner"
+          defaultValue={event.internalOwner ?? ""}
+          placeholder="Responsable"
+          className="w-full rounded-lg px-2 py-1 mb-1.5 text-xs bg-[#1A2E4A] border border-[#2BADA0]/30 text-[#E8F4F2] placeholder-[#5A8F8B] focus:outline-none"
+        />
+        <textarea
+          name="internalNotes"
+          defaultValue={event.internalNotes ?? ""}
+          placeholder="Notas"
+          rows={2}
+          className="w-full rounded-lg px-2 py-1 mb-1.5 text-xs bg-[#1A2E4A] border border-[#2BADA0]/30 text-[#E8F4F2] placeholder-[#5A8F8B] resize-none focus:outline-none"
+        />
+        <div className="flex justify-end gap-1">
+          <button type="button" onClick={onClose} className="p-1 text-[#5A8F8B] hover:text-[#E8F4F2]"><X size={11} /></button>
+          <button type="submit" disabled={loading} className="p-1 text-[#2BADA0]"><Check size={11} /></button>
+        </div>
+      </form>
+    );
+  }
+
   return (
     <form
       onSubmit={handleSubmit}
       onKeyDown={(e) => { if (e.key === "Escape") onClose(); }}
-      className={`rounded p-2 border text-xs ${
-        isProduccion
-          ? "bg-[#222] border-[#444] text-[#F0EEE8]"
-          : "bg-white border-gray-200 shadow-sm"
-      }`}
+      className="rounded-lg p-2 border text-xs bg-white border-[#d0e8e5] shadow-sm"
     >
       <input
         name="title"
         defaultValue={event.title}
         required
         autoFocus
-        className={`w-full rounded px-2 py-1 mb-1.5 text-xs focus:outline-none focus:ring-1 ${
-          isProduccion
-            ? "bg-[#333] border border-[#555] text-white focus:ring-gray-400"
-            : "border border-gray-300 focus:ring-[#3C3489]"
-        }`}
+        className="w-full rounded-lg px-2 py-1 mb-1.5 text-xs border border-[#c8e0dd] focus:outline-none focus:ring-1 focus:ring-[#2BADA0]"
       />
-
-      {!isProduccion && (
-        <>
-          <select
-            name="category"
-            defaultValue={event.category}
-            className="w-full rounded px-2 py-1 mb-1.5 text-xs border border-gray-300 focus:outline-none"
-          >
-            {PUBLIC_CATEGORIES.map((cat) => (
-              <option key={cat} value={cat}>{CATEGORY_META[cat].label}</option>
-            ))}
-          </select>
-          <div className="flex gap-1.5 mb-1.5">
-            <input name="startTime" type="time" defaultValue={event.startTime ?? ""} className="flex-1 rounded px-2 py-1 text-xs border border-gray-300 focus:outline-none" />
-            <input name="endTime" type="time" defaultValue={event.endTime ?? ""} className="flex-1 rounded px-2 py-1 text-xs border border-gray-300 focus:outline-none" />
-          </div>
-          <input name="venue" defaultValue={event.venue ?? ""} placeholder="Lugar" className="w-full rounded px-2 py-1 mb-1.5 text-xs border border-gray-300 focus:outline-none" />
-        </>
-      )}
-
-      {isProduccion && (
-        <>
-          <input name="internalOwner" defaultValue={event.internalOwner ?? ""} placeholder="Responsable" className="w-full rounded px-2 py-1 mb-1.5 text-xs bg-[#333] border border-[#555] text-white focus:outline-none" />
-          <textarea name="internalNotes" defaultValue={event.internalNotes ?? ""} placeholder="Notas" rows={2} className="w-full rounded px-2 py-1 mb-1.5 text-xs bg-[#333] border border-[#555] text-white resize-none focus:outline-none" />
-        </>
-      )}
-
+      <select
+        name="category"
+        defaultValue={event.category}
+        className="w-full rounded-lg px-2 py-1 mb-1.5 text-xs border border-[#c8e0dd] focus:outline-none bg-white"
+      >
+        {PUBLIC_CATEGORIES.map((cat) => (
+          <option key={cat} value={cat}>{CATEGORY_META[cat].label}</option>
+        ))}
+      </select>
+      <div className="flex gap-1.5 mb-1.5">
+        <input name="startTime" type="time" defaultValue={event.startTime ?? ""} className="flex-1 rounded-lg px-2 py-1 text-xs border border-[#c8e0dd] focus:outline-none" />
+        <input name="endTime" type="time" defaultValue={event.endTime ?? ""} className="flex-1 rounded-lg px-2 py-1 text-xs border border-[#c8e0dd] focus:outline-none" />
+      </div>
+      <input
+        name="venue"
+        defaultValue={event.venue ?? ""}
+        placeholder="Lugar"
+        className="w-full rounded-lg px-2 py-1 mb-1.5 text-xs border border-[#c8e0dd] focus:outline-none"
+      />
       <div className="flex justify-end gap-1">
-        <button type="button" onClick={onClose} className="p-1 opacity-50 hover:opacity-100"><X size={11} /></button>
-        <button type="submit" disabled={loading} className={`p-1 rounded ${isProduccion ? "text-green-400" : "text-[#3C3489]"}`}>
-          <Check size={11} />
-        </button>
+        <button type="button" onClick={onClose} className="p-1 text-[#8BBDB9] hover:text-[#0F1C34]"><X size={11} /></button>
+        <button type="submit" disabled={loading} className="p-1 text-[#2BADA0]"><Check size={11} /></button>
       </div>
     </form>
   );

@@ -14,7 +14,14 @@ const config: Config = {
         sans: ["system-ui", "-apple-system", "sans-serif"],
       },
       colors: {
-        background: "#faf9f6",
+        background: "#f7fafb",
+        brand: {
+          DEFAULT: "#2BADA0",
+          light: "#4DD5BB",
+          dark: "#1F8A7E",
+          blue: "#3575B0",
+          navy: "#0F1C34",
+        },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -47,6 +54,9 @@ const config: Config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+      },
+      backgroundImage: {
+        "brand-gradient": "linear-gradient(135deg, #4DD5BB 0%, #2BADA0 50%, #3575B0 100%)",
       },
       borderRadius: {
         lg: "var(--radius)",

@@ -7,7 +7,8 @@ import { format } from "date-fns";
 import { slugify } from "@/lib/utils";
 
 const COVER_COLORS = [
-  "#3C3489", "#085041", "#712B13", "#633806", "#27500A", "#72243E", "#1a1a2e",
+  "#2BADA0", "#3575B0", "#4DD5BB", "#0F1C34",
+  "#085041", "#712B13", "#72243E", "#27500A",
 ];
 
 export function FestivalSettingsClient({ festival }: { festival: Festival }) {
@@ -74,35 +75,26 @@ export function FestivalSettingsClient({ festival }: { festival: Festival }) {
   }
 
   async function handleDelete() {
-    const confirmed = confirm(
-      `¿Eliminar permanentemente "${festival.name}"? Esta acción no se puede deshacer.`
-    );
-    if (!confirmed) return;
-    const confirmed2 = confirm("¿Estás completamente seguro? Se eliminarán todos los eventos.");
-    if (!confirmed2) return;
-
+    if (!confirm(`¿Eliminar permanentemente "${festival.name}"? Esta acción no se puede deshacer.`)) return;
+    if (!confirm("¿Estás completamente seguro? Se eliminarán todos los eventos.")) return;
     await fetch(`/api/festivals/${festival.id}`, { method: "DELETE" });
     router.push("/dashboard");
     router.refresh();
   }
 
+  const inputCls = "w-full border border-[#c8e0dd] rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-[#2BADA0] focus:border-[#2BADA0] bg-white transition-colors";
+
   return (
     <div className="space-y-8">
-      <form onSubmit={handleSubmit} className="bg-white border border-gray-200 rounded-lg p-5 space-y-4">
+      <form onSubmit={handleSubmit} className="bg-white border border-[#d0e8e5] rounded-xl p-5 space-y-4">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div className="sm:col-span-2">
-            <label className="block text-sm font-medium text-gray-700 mb-1">Nombre *</label>
-            <input
-              name="name"
-              required
-              defaultValue={festival.name}
-              onChange={handleNameChange}
-              className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-[#3C3489]"
-            />
+            <label className="block text-sm font-medium text-[#0F1C34] mb-1">Nombre *</label>
+            <input name="name" required defaultValue={festival.name} onChange={handleNameChange} className={inputCls} />
           </div>
 
           <div className="sm:col-span-2">
-            <label className="block text-sm font-medium text-gray-700 mb-1">Slug (URL pública)</label>
+            <label className="block text-sm font-medium text-[#0F1C34] mb-1">Slug (URL pública)</label>
             <input
               id="slug-input"
               name="slug"
@@ -110,54 +102,35 @@ export function FestivalSettingsClient({ festival }: { festival: Festival }) {
               defaultValue={festival.slug}
               pattern="[a-z0-9-]+"
               onChange={(e) => { e.target.dataset.manual = "1"; }}
-              className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-[#3C3489]"
+              className={inputCls}
             />
-            <p className="text-xs text-gray-400 mt-0.5">
+            <p className="text-xs text-[#5A8F8B] mt-0.5">
               Programa público en: /p/{festival.slug}
             </p>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Fecha inicio</label>
-            <input
-              name="startDate"
-              type="date"
-              defaultValue={format(festival.startDate, "yyyy-MM-dd")}
-              className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-[#3C3489]"
-            />
+            <label className="block text-sm font-medium text-[#0F1C34] mb-1">Fecha inicio</label>
+            <input name="startDate" type="date" defaultValue={format(festival.startDate, "yyyy-MM-dd")} className={inputCls} />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Fecha fin</label>
-            <input
-              name="endDate"
-              type="date"
-              defaultValue={format(festival.endDate, "yyyy-MM-dd")}
-              className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-[#3C3489]"
-            />
+            <label className="block text-sm font-medium text-[#0F1C34] mb-1">Fecha fin</label>
+            <input name="endDate" type="date" defaultValue={format(festival.endDate, "yyyy-MM-dd")} className={inputCls} />
           </div>
 
           <div className="sm:col-span-2">
-            <label className="block text-sm font-medium text-gray-700 mb-1">Lugar</label>
-            <input
-              name="location"
-              defaultValue={festival.location ?? ""}
-              className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-[#3C3489]"
-            />
+            <label className="block text-sm font-medium text-[#0F1C34] mb-1">Lugar</label>
+            <input name="location" defaultValue={festival.location ?? ""} className={inputCls} />
           </div>
 
           <div className="sm:col-span-2">
-            <label className="block text-sm font-medium text-gray-700 mb-1">Descripción</label>
-            <textarea
-              name="description"
-              defaultValue={festival.description ?? ""}
-              rows={3}
-              className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-[#3C3489] resize-none"
-            />
+            <label className="block text-sm font-medium text-[#0F1C34] mb-1">Descripción</label>
+            <textarea name="description" defaultValue={festival.description ?? ""} rows={3} className={`${inputCls} resize-none`} />
           </div>
 
           <div className="sm:col-span-2">
-            <label className="block text-sm font-medium text-gray-700 mb-2">Color del festival</label>
+            <label className="block text-sm font-medium text-[#0F1C34] mb-2">Color del festival</label>
             <div className="flex items-center gap-2 flex-wrap">
               {COVER_COLORS.map((c) => (
                 <button
@@ -165,7 +138,7 @@ export function FestivalSettingsClient({ festival }: { festival: Festival }) {
                   type="button"
                   onClick={() => setCoverColor(c)}
                   className={`w-7 h-7 rounded-full border-2 transition-transform ${
-                    coverColor === c ? "border-gray-800 scale-110" : "border-transparent"
+                    coverColor === c ? "border-[#0F1C34] scale-110 shadow-md" : "border-transparent"
                   }`}
                   style={{ backgroundColor: c }}
                 />
@@ -174,7 +147,7 @@ export function FestivalSettingsClient({ festival }: { festival: Festival }) {
                 type="color"
                 value={coverColor}
                 onChange={(e) => setCoverColor(e.target.value)}
-                className="w-7 h-7 rounded cursor-pointer border border-gray-300"
+                className="w-7 h-7 rounded-full cursor-pointer border border-[#c8e0dd]"
                 title="Color personalizado"
               />
             </div>
@@ -182,17 +155,20 @@ export function FestivalSettingsClient({ festival }: { festival: Festival }) {
         </div>
 
         {error && (
-          <p className="text-sm text-red-600 bg-red-50 border border-red-200 rounded px-3 py-2">{error}</p>
+          <p className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2">{error}</p>
         )}
         {success && (
-          <p className="text-sm text-green-600 bg-green-50 border border-green-200 rounded px-3 py-2">Cambios guardados.</p>
+          <p className="text-sm text-[#0A4A42] bg-[#E0F5F0] border border-[#2BADA0]/30 rounded-lg px-3 py-2">
+            Cambios guardados.
+          </p>
         )}
 
         <div className="flex justify-end">
           <button
             type="submit"
             disabled={loading}
-            className="text-sm px-4 py-2 rounded bg-[#3C3489] text-white hover:bg-[#322d70] disabled:opacity-60 transition-colors"
+            className="text-sm px-4 py-2 rounded-lg text-white disabled:opacity-60 transition-all hover:opacity-90"
+            style={{ background: "linear-gradient(135deg, #4DD5BB, #2BADA0)" }}
           >
             {loading ? "Guardando…" : "Guardar cambios"}
           </button>
@@ -200,23 +176,21 @@ export function FestivalSettingsClient({ festival }: { festival: Festival }) {
       </form>
 
       {/* Danger zone */}
-      <div className="border border-red-200 rounded-lg p-5">
+      <div className="border border-red-200 rounded-xl p-5">
         <h2 className="font-medium text-sm text-red-700 mb-4">Zona de peligro</h2>
         <div className="flex items-center justify-between flex-wrap gap-3">
           <div>
-            <p className="text-sm font-medium">
+            <p className="text-sm font-medium text-[#0F1C34]">
               {festival.isArchived ? "Restaurar festival" : "Archivar festival"}
             </p>
-            <p className="text-xs text-gray-500">
-              {festival.isArchived
-                ? "Moverlo de vuelta a activos"
-                : "Ocultarlo del listado principal"}
+            <p className="text-xs text-[#5A8F8B]">
+              {festival.isArchived ? "Moverlo de vuelta a activos" : "Ocultarlo del listado principal"}
             </p>
           </div>
           <button
             onClick={handleArchive}
             disabled={archiving}
-            className="text-sm px-3 py-1.5 rounded border border-orange-300 text-orange-700 hover:bg-orange-50 transition-colors disabled:opacity-60"
+            className="text-sm px-3 py-1.5 rounded-lg border border-orange-300 text-orange-700 hover:bg-orange-50 transition-colors disabled:opacity-60"
           >
             {festival.isArchived ? "Restaurar" : "Archivar"}
           </button>
@@ -225,13 +199,13 @@ export function FestivalSettingsClient({ festival }: { festival: Festival }) {
         <div className="border-t border-red-100 mt-4 pt-4 flex items-center justify-between flex-wrap gap-3">
           <div>
             <p className="text-sm font-medium text-red-700">Eliminar festival</p>
-            <p className="text-xs text-gray-500">
-              Esta acción elimina permanentemente el festival y todos sus eventos.
+            <p className="text-xs text-[#5A8F8B]">
+              Elimina permanentemente el festival y todos sus eventos.
             </p>
           </div>
           <button
             onClick={handleDelete}
-            className="text-sm px-3 py-1.5 rounded bg-red-600 text-white hover:bg-red-700 transition-colors"
+            className="text-sm px-3 py-1.5 rounded-lg bg-red-600 text-white hover:bg-red-700 transition-colors"
           >
             Eliminar
           </button>

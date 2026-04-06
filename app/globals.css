@@ -4,41 +4,57 @@
 
 @layer base {
   :root {
-    --background: 45 33% 97%;
-    --foreground: 222.2 84% 4.9%;
+    /* Brand — derived from Encore logo gradient (teal-green → steel-blue) */
+    --brand:        210 81% 40%;   /* #2BADA0 mid-teal */
+    --brand-light:  171 62% 57%;   /* #4DD5BB bright teal */
+    --brand-dark:   175 61% 32%;   /* #1F8A7E deep teal */
+    --navy:         218 54% 14%;   /* #0F1C34 logo bg navy */
+
+    --background: 195 25% 97%;      /* #f7fafb cool-white */
+    --foreground: 218 54% 14%;      /* navy text */
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 218 54% 14%;
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-    --primary: 246 50% 37%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 246 50% 37%;
+    --popover-foreground: 218 54% 14%;
+    --primary: 175 58% 41%;         /* #2BADA0 */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 195 25% 93%;
+    --secondary-foreground: 218 40% 25%;
+    --muted: 195 20% 94%;
+    --muted-foreground: 210 15% 50%;
+    --accent: 171 62% 93%;          /* very light teal tint */
+    --accent-foreground: 175 58% 30%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 195 20% 88%;
+    --input: 195 20% 88%;
+    --ring: 175 58% 41%;
     --radius: 0.4rem;
   }
 
-  * {
-    @apply border-border;
-  }
+  * { @apply border-border; }
 
   body {
-    @apply bg-[#faf9f6] text-foreground;
+    @apply bg-[#f7fafb] text-[#0F1C34];
     font-family: system-ui, -apple-system, sans-serif;
     -webkit-font-smoothing: antialiased;
   }
 
-  h1, h2, h3,
-  .font-serif {
+  h1, h2, h3, .font-serif {
     font-family: Georgia, "Times New Roman", serif;
+  }
+}
+
+@layer utilities {
+  /* Brand gradient utility */
+  .bg-brand-gradient {
+    background: linear-gradient(135deg, #4DD5BB 0%, #2BADA0 50%, #3575B0 100%);
+  }
+  .text-brand-gradient {
+    background: linear-gradient(135deg, #2BADA0 0%, #3575B0 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 }
 
@@ -61,7 +77,11 @@
     cursor: pointer;
     border: 1px solid;
     border-left-width: 3px;
-    transition: opacity 0.15s;
+    transition: box-shadow 0.15s, opacity 0.15s;
+  }
+
+  .event-card:hover {
+    box-shadow: 0 2px 8px rgba(43, 173, 160, 0.12);
   }
 
   .event-card:hover .event-card-actions {
@@ -92,41 +112,30 @@
     box-shadow: 0 0 0 2px rgba(212, 184, 0, 0.15);
   }
 
+  /* Primary button */
+  .btn-primary {
+    @apply bg-[#2BADA0] text-white rounded px-4 py-2 text-sm font-medium;
+    @apply hover:bg-[#1F8A7E] transition-colors disabled:opacity-60;
+  }
+
   /* Drag drop indicator line */
   .dnd-drop-indicator {
     height: 2px;
-    background: #3b82f6;
+    background: #2BADA0;
     border-radius: 1px;
     margin: 2px 0;
   }
 
   /* Print styles */
   @media print {
-    .no-print {
-      display: none !important;
-    }
-    body {
-      background: white;
-      font-size: 11pt;
-    }
-    .print-page-break {
-      page-break-after: always;
-    }
+    .no-print { display: none !important; }
+    body { background: white; font-size: 11pt; }
+    .print-page-break { page-break-after: always; }
   }
 }
 
-/* Scrollbar styling */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-::-webkit-scrollbar-thumb {
-  background: #d1d5db;
-  border-radius: 3px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #9ca3af;
-}
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #c0d8d6; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #2BADA0; }

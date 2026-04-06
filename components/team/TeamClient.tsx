@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import type { TeamMember } from "@prisma/client";
-import { Plus, Trash2, Pencil, Check, X, Phone, Mail, Briefcase } from "lucide-react";
+import { Plus, Trash2, Pencil, Phone, Mail, Briefcase } from "lucide-react";
 
 type Props = {
   festivalId: string;
@@ -27,7 +27,6 @@ export function TeamClient({ festivalId, initialMembers }: Props) {
       phone: fd.get("phone") || undefined,
       email: fd.get("email") || undefined,
     };
-
     setLoading(true);
     try {
       const res = await fetch("/api/team", {
@@ -55,7 +54,6 @@ export function TeamClient({ festivalId, initialMembers }: Props) {
       phone: fd.get("phone") || undefined,
       email: fd.get("email") || undefined,
     };
-
     setLoading(true);
     try {
       const res = await fetch(`/api/team/${id}`, {
@@ -83,8 +81,8 @@ export function TeamClient({ festivalId, initialMembers }: Props) {
     <div>
       <div className="space-y-3 mb-6">
         {members.length === 0 && !showAdd && (
-          <div className="border-2 border-dashed border-gray-200 rounded-lg p-8 text-center">
-            <p className="text-gray-400">Sin miembros de equipo aún</p>
+          <div className="border-2 border-dashed border-[#d0e8e5] rounded-xl p-8 text-center">
+            <p className="text-[#5A8F8B]">Sin miembros de equipo aún</p>
           </div>
         )}
 
@@ -100,14 +98,18 @@ export function TeamClient({ festivalId, initialMembers }: Props) {
           ) : (
             <div
               key={member.id}
-              className="bg-white border border-gray-200 rounded-lg px-4 py-3 flex items-center gap-3"
+              className="bg-white border border-[#d0e8e5] rounded-xl px-4 py-3 flex items-center gap-3 hover:border-[#2BADA0]/40 transition-colors"
             >
-              <div className="w-8 h-8 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center text-sm font-semibold flex-shrink-0">
+              {/* Avatar circle with gradient */}
+              <div
+                className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold flex-shrink-0 text-white"
+                style={{ background: "linear-gradient(135deg, #4DD5BB, #3575B0)" }}
+              >
                 {member.name[0]?.toUpperCase()}
               </div>
               <div className="flex-1 min-w-0">
-                <div className="font-medium text-sm truncate">{member.name}</div>
-                <div className="flex items-center gap-3 text-xs text-gray-400 mt-0.5 flex-wrap">
+                <div className="font-medium text-sm text-[#0F1C34] truncate">{member.name}</div>
+                <div className="flex items-center gap-3 text-xs text-[#5A8F8B] mt-0.5 flex-wrap">
                   {member.role && (
                     <span className="flex items-center gap-0.5">
                       <Briefcase size={10} />
@@ -131,13 +133,13 @@ export function TeamClient({ festivalId, initialMembers }: Props) {
               <div className="flex items-center gap-1">
                 <button
                   onClick={() => setEditId(member.id)}
-                  className="p-1.5 text-gray-400 hover:text-gray-600 rounded hover:bg-gray-100 transition-colors"
+                  className="p-1.5 text-[#8BBDB9] hover:text-[#2BADA0] rounded-lg hover:bg-[#E0F5F0] transition-colors"
                 >
                   <Pencil size={13} />
                 </button>
                 <button
                   onClick={() => handleDelete(member.id, member.name)}
-                  className="p-1.5 text-gray-400 hover:text-red-500 rounded hover:bg-red-50 transition-colors"
+                  className="p-1.5 text-[#8BBDB9] hover:text-red-500 rounded-lg hover:bg-red-50 transition-colors"
                 >
                   <Trash2 size={13} />
                 </button>
@@ -156,7 +158,7 @@ export function TeamClient({ festivalId, initialMembers }: Props) {
       ) : (
         <button
           onClick={() => setShowAdd(true)}
-          className="flex items-center gap-1.5 text-sm text-[#3C3489] hover:text-[#322d70] transition-colors"
+          className="flex items-center gap-1.5 text-sm text-[#2BADA0] hover:text-[#1F8A7E] transition-colors"
         >
           <Plus size={14} />
           Agregar miembro
@@ -177,56 +179,42 @@ function MemberForm({
   onCancel: () => void;
   loading: boolean;
 }) {
+  const inputCls = "w-full border border-[#c8e0dd] rounded-lg px-2 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-[#2BADA0] focus:border-[#2BADA0]";
+
   return (
     <form
       onSubmit={onSubmit}
       onKeyDown={(e) => { if (e.key === "Escape") onCancel(); }}
-      className="bg-white border border-[#AFA9EC] rounded-lg px-4 py-3 space-y-3"
+      className="bg-white border border-[#2BADA0]/40 rounded-xl px-4 py-3 space-y-3 shadow-[0_0_0_3px_rgba(43,173,160,0.06)]"
     >
       <div className="grid grid-cols-2 gap-3">
         <div>
-          <label className="block text-xs font-medium text-gray-600 mb-1">Nombre *</label>
-          <input
-            name="name"
-            required
-            autoFocus
-            defaultValue={defaultValues?.name}
-            className="w-full border border-gray-300 rounded px-2 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-[#3C3489]"
-          />
+          <label className="block text-xs font-medium text-[#0F1C34] mb-1">Nombre *</label>
+          <input name="name" required autoFocus defaultValue={defaultValues?.name} className={inputCls} />
         </div>
         <div>
-          <label className="block text-xs font-medium text-gray-600 mb-1">Rol</label>
-          <input
-            name="role"
-            defaultValue={defaultValues?.role ?? ""}
-            className="w-full border border-gray-300 rounded px-2 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-[#3C3489]"
-            placeholder="Técnico, Coordinador…"
-          />
+          <label className="block text-xs font-medium text-[#0F1C34] mb-1">Rol</label>
+          <input name="role" defaultValue={defaultValues?.role ?? ""} className={inputCls} placeholder="Técnico, Coordinador…" />
         </div>
         <div>
-          <label className="block text-xs font-medium text-gray-600 mb-1">Teléfono</label>
-          <input
-            name="phone"
-            type="tel"
-            defaultValue={defaultValues?.phone ?? ""}
-            className="w-full border border-gray-300 rounded px-2 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-[#3C3489]"
-          />
+          <label className="block text-xs font-medium text-[#0F1C34] mb-1">Teléfono</label>
+          <input name="phone" type="tel" defaultValue={defaultValues?.phone ?? ""} className={inputCls} />
         </div>
         <div>
-          <label className="block text-xs font-medium text-gray-600 mb-1">Email</label>
-          <input
-            name="email"
-            type="email"
-            defaultValue={defaultValues?.email ?? ""}
-            className="w-full border border-gray-300 rounded px-2 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-[#3C3489]"
-          />
+          <label className="block text-xs font-medium text-[#0F1C34] mb-1">Email</label>
+          <input name="email" type="email" defaultValue={defaultValues?.email ?? ""} className={inputCls} />
         </div>
       </div>
       <div className="flex justify-end gap-2">
-        <button type="button" onClick={onCancel} className="text-sm px-3 py-1.5 rounded border border-gray-200 hover:bg-gray-50">
+        <button type="button" onClick={onCancel} className="text-sm px-3 py-1.5 rounded-lg border border-[#c8e0dd] text-[#5A8F8B] hover:bg-[#f0f9f8]">
           Cancelar
         </button>
-        <button type="submit" disabled={loading} className="text-sm px-3 py-1.5 rounded bg-[#3C3489] text-white hover:bg-[#322d70] disabled:opacity-60">
+        <button
+          type="submit"
+          disabled={loading}
+          className="text-sm px-3 py-1.5 rounded-lg text-white disabled:opacity-60"
+          style={{ background: "linear-gradient(135deg, #4DD5BB, #2BADA0)" }}
+        >
           {loading ? "Guardando…" : defaultValues ? "Guardar" : "Agregar"}
         </button>
       </div>

@@ -45,31 +45,31 @@ export function LoginForm() {
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
+        <label className="block text-sm font-medium text-[#0F1C34] mb-1">
           Usuario
         </label>
         <input
           name="username"
           type="text"
           autoComplete="username"
-          className="w-full rounded border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#3C3489] focus:border-transparent"
+          className="w-full rounded-lg border border-[#c8e0dd] px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#2BADA0]/40 focus:border-[#2BADA0] transition-colors"
           placeholder="producer"
         />
       </div>
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
+        <label className="block text-sm font-medium text-[#0F1C34] mb-1">
           Contraseña
         </label>
         <input
           name="password"
           type="password"
           autoComplete="current-password"
-          className="w-full rounded border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#3C3489] focus:border-transparent"
+          className="w-full rounded-lg border border-[#c8e0dd] px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#2BADA0]/40 focus:border-[#2BADA0] transition-colors"
         />
       </div>
 
       {error && (
-        <p className="text-sm text-red-600 bg-red-50 border border-red-200 rounded px-3 py-2">
+        <p className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2">
           {error}
         </p>
       )}
@@ -77,7 +77,7 @@ export function LoginForm() {
       <button
         type="submit"
         disabled={loading}
-        className="w-full bg-[#3C3489] text-white rounded px-4 py-2.5 text-sm font-medium hover:bg-[#322d70] transition-colors disabled:opacity-60"
+        className="w-full text-white rounded-lg px-4 py-2.5 text-sm font-medium transition-all disabled:opacity-60 bg-brand-gradient hover:opacity-90"
       >
         {loading ? "Entrando…" : "Entrar"}
       </button>

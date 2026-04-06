@@ -28,8 +28,10 @@ export default async function DashboardPage() {
     <div className="max-w-4xl mx-auto px-4 py-8">
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="font-serif text-2xl font-normal">Mis festivales</h1>
-          <p className="text-sm text-gray-500 mt-0.5">
+          <h1 className="font-serif text-2xl font-normal text-[#0F1C34]">
+            Mis festivales
+          </h1>
+          <p className="text-sm text-[#5A8F8B] mt-0.5">
             {festivals.filter((f) => !f.isArchived).length} activos
           </p>
         </div>
@@ -38,7 +40,7 @@ export default async function DashboardPage() {
 
       {grouped.active.length > 0 && (
         <section className="mb-8">
-          <h2 className="text-xs uppercase tracking-wider text-gray-400 font-medium mb-3">
+          <h2 className="text-xs uppercase tracking-wider text-[#2BADA0] font-semibold mb-3">
             En curso
           </h2>
           <div className="space-y-3">
@@ -51,7 +53,7 @@ export default async function DashboardPage() {
 
       {grouped.upcoming.length > 0 && (
         <section className="mb-8">
-          <h2 className="text-xs uppercase tracking-wider text-gray-400 font-medium mb-3">
+          <h2 className="text-xs uppercase tracking-wider text-[#5A8F8B] font-semibold mb-3">
             Próximos
           </h2>
           <div className="space-y-3">
@@ -64,7 +66,7 @@ export default async function DashboardPage() {
 
       {grouped.past.length > 0 && (
         <section className="mb-8">
-          <h2 className="text-xs uppercase tracking-wider text-gray-400 font-medium mb-3">
+          <h2 className="text-xs uppercase tracking-wider text-[#5A8F8B]/60 font-semibold mb-3">
             Pasados / Archivados
           </h2>
           <div className="space-y-3">
@@ -76,9 +78,9 @@ export default async function DashboardPage() {
       )}
 
       {festivals.length === 0 && (
-        <div className="text-center py-16 border-2 border-dashed border-gray-200 rounded-lg">
-          <p className="font-serif text-lg text-gray-400">Sin festivales aún</p>
-          <p className="text-sm text-gray-400 mt-1">
+        <div className="text-center py-16 border-2 border-dashed border-[#d0e8e5] rounded-xl">
+          <p className="font-serif text-lg text-[#5A8F8B]">Sin festivales aún</p>
+          <p className="text-sm text-[#5A8F8B]/70 mt-1">
             Crea tu primer festival para empezar
           </p>
         </div>

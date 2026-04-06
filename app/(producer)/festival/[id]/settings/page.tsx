@@ -18,11 +18,14 @@ export default async function SettingsPage({ params }: Props) {
   return (
     <div className="max-w-2xl mx-auto px-4 py-8">
       <div className="mb-6">
-        <a href={`/festival/${params.id}`} className="text-sm text-gray-400 hover:text-gray-600">
+        <a
+          href={`/festival/${params.id}`}
+          className="inline-flex items-center gap-1 text-sm text-[#5A8F8B] hover:text-[#2BADA0] transition-colors"
+        >
           ← {festival.name}
         </a>
       </div>
-      <h1 className="font-serif text-2xl mb-6">Configuración del festival</h1>
+      <h1 className="font-serif text-2xl text-[#0F1C34] mb-6">Configuración del festival</h1>
       <FestivalSettingsClient festival={festival} />
     </div>
   );
